@@ -1,0 +1,37 @@
+name: Run Flask API
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10  # 设置超时时间，防止长时间运行
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r app/requirements.txt
+
+    - name: Run Flask API
+      run: |
+        cd app
+        gunicorn app:app --bind 0.0.0.0:8080
+      env:
+        GUNICORN_CMD_ARGS: "--timeout 60"
+      timeout-minutes: 10  # 设置超时时间，防止长时间运行
