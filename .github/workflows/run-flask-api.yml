@@ -12,7 +12,7 @@ on:
 jobs:
   run-api:
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # 设置超时时间，防止长时间运行
+    timeout-minutes: 360  # 设置超时时间为 6 小时
 
     steps:
     - name: Checkout repository
@@ -34,4 +34,4 @@ jobs:
         gunicorn app:app --bind 0.0.0.0:8080
       env:
         GUNICORN_CMD_ARGS: "--timeout 60"
-      timeout-minutes: 10  # 设置超时时间，防止长时间运行
+      timeout-minutes: 360  # 设置超时时间为 6 小时
